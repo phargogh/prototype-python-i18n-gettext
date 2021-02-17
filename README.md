@@ -22,8 +22,32 @@ from python source and loading them at runtime.
 5. At compile time, compile the PO files into MO message objects for
    distribution.  In Makefile, this is `make mo`.
 
+2. Extract a message catalog template.
+   ```shell
+   pybabel extract src --output-file=appname.pot
+   ```
+3. Initialize the target locales.
+   ```shell
+   pybabel init --locale=es --input-file=appname.pot --output-dir=src/i18n
+   ```
+   `src/i18n` must already exist.  New locale-specific files will be created at
+   `<output-dir>/<locals>/LC_MESSAGES/messages.po`.
+   * I would also commit this file, to make it easier to compare any changes
+     in the interim.
+   * I don't see a reason to keep the template file.  That can always be
+     regenerated from the source revision.
+4. Send the locale-specific file to the translator.
+5. When the translated file is returned, make sure no `fuzzy` tags remain
+   and commit the returned file in place in its `LC_MESSAGES` folder.
+6. At compile time, convert `*.po` to `*.mo` in the `LC_MESSAGES` folders.
+   With `pybabel`, this is
+   ```shell
+   pybabel compile --directory=src/i18n --domain=appname
+   ```
+
 To test the rendered translations, try running `python src/application.py
 <lang>`, where `lang` is your language code of choice.
+
 
 ## Notes
 
@@ -37,4 +61,6 @@ docs](https://www.gnu.org/software/gawk/manual/html_node/Explaining-gettext.html
   changed.  When this line is present, `pybabel` will skip compilation unless
   forced.  Ensure human review and remove the fuzzy tag.
   https://stackoverflow.com/a/12555922/299084
+* When a single msgstr is labeled `fuzzy`, that means the string has changed
+  since the last PO generation.
 

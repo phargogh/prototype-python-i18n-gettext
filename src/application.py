@@ -18,7 +18,7 @@ def main(args=None):
 
     parsed_args = parser.parse_args(args)
     gettext.install(
-        domain='natcap.InVEST',
+        domain='appname',
         localedir=os.path.join(os.path.dirname(__file__), 'i18n'))
     print(parsed_args)
 
