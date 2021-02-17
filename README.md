@@ -32,11 +32,12 @@ from python source and loading them at runtime.
 6. At compile time, convert `*.po` to `*.mo` in the `LC_MESSAGES` folders.
    With `pybabel`, this is
    ```shell
-   pybabel compile --directory=src/i18n --domain=appname
+   pybabel compile --directory=src/i18n
    ```
 
 To test the rendered translations, try running `python src/application.py
 <lang>`, where `lang` is your language code of choice.
+
 
 
 ## Notes
