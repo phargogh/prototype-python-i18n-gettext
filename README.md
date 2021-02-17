@@ -12,16 +12,6 @@ from python source and loading them at runtime.
 1. `gettext.install` installs the `_()` function into the python namespace.
    All text for translation must be marked up with the `_( ... )` function.
    Anything not wrapped by `_()` will not be extracted for translation.
-2. Use `pybabel` to build a message catalog template.  This is currently
-   written to `gettext-pot/template.pot` and then copied for each language,
-   such as `gettext-pot/es.po`.  In Makefile, this is `make pot`
-3. Send the `*.po` files to the appropriate translation teams.
-4. When translation is complete:
-   * Make sure the `fuzzy` tag has been removed.
-   * Commit the completed file to `gettext-catalogs`.
-5. At compile time, compile the PO files into MO message objects for
-   distribution.  In Makefile, this is `make mo`.
-
 2. Extract a message catalog template.
    ```shell
    pybabel extract src --output-file=appname.pot
