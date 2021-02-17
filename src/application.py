@@ -17,10 +17,14 @@ def main(args=None):
     parser.add_argument('lang')
 
     parsed_args = parser.parse_args(args)
-    gettext.install(
-        domain='appname',
-        localedir=os.path.join(os.path.dirname(__file__), 'i18n'))
+    localedir = os.path.join(os.path.dirname(__file__), 'i18n')
     print(parsed_args)
+
+    gettext.translation(
+        'messages',
+        localedir=localedir,
+        fallback=True,  # Use english if lang not found
+        languages=[parsed_args.lang]).install()
 
     # NOTE: This is the standard greeting.
     print(_("Hello, world!"))
