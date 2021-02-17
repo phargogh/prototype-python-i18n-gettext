@@ -76,4 +76,5 @@ docs](https://www.gnu.org/software/gawk/manual/html_node/Explaining-gettext.html
   https://stackoverflow.com/a/12555922/299084
 * When a single msgstr is labeled `fuzzy`, that means the string has changed
   since the last PO generation.
-
+* Babel cmdline docs have been useful: http://babel.pocoo.org/en/latest/cmdline.html#cmdline
+* GNU docs on what to commit to version control: https://www.gnu.org/software/gettext/manual/gettext.html#Files-under-Version-Control
