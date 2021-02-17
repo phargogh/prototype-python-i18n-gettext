@@ -38,6 +38,28 @@ from python source and loading them at runtime.
 To test the rendered translations, try running `python src/application.py
 <lang>`, where `lang` is your language code of choice.
 
+## Process - Updating Translation strings
+
+1. Generate a new template file.
+   ```shell
+   pybabel extract src --output-file=appname.pot
+   ```
+2. Update the per-locale message catalogs.
+   ```shell
+   pybabel update --input-file=appname.pot --output-dir=src/i18n
+   ```
+   This will update the PO files in `src/i18n` with the new text, and touched
+   strings will have the `fuzzy` tag.
+   ```diff
+   -#: src/application.py:26
+   -msgid "Hello, world!"
+   +#: src/application.py:27
+   +#, fuzzy
+   +msgid "Hello, world! What's up?"
+    msgstr "你好，世界！
+   ```
+3. Translate the files as needed.  Remove the `fuzzy` tags.  Commit the result.
+4. At build time, run the `pybabel compile` command noted above.
 
 
 ## Notes
