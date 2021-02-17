@@ -1,11 +1,15 @@
 import argparse
 import gettext
+import os
 
 
 
 # TODO: set language
+# TODO: use set language.
 # TODO: check that provided language is known.
 #       warn and fall back to english if not.
+# TODO: highlight text that's changed since the last translation update.
+#       Goal: only send strings that have changed to the translator.
 
 def main(args=None):
     parser = argparse.ArgumentParser(
@@ -13,9 +17,13 @@ def main(args=None):
     parser.add_argument('lang')
 
     parsed_args = parser.parse_args(args)
+    gettext.install(
+        domain='natcap.InVEST',
+        localedir=os.path.join(os.path.dirname(__file__), 'i18n'))
     print(parsed_args)
 
-    print("Hello, world!")
+    # NOTE: This is the standard greeting.
+    print(_("Hello, world!"))
 
 
 if __name__ == '__main__':
