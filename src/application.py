@@ -1,6 +1,10 @@
+import shutil
 import argparse
 import gettext
 import os
+
+import babel
+from babel.messages import frontend
 
 
 
@@ -19,8 +23,29 @@ def main(args=None):
 
     # If we're provided with a .mo file, just use that.
     if os.path.exists(parsed_args.lang):
-        print(f'Using .mo file at {parsed_args.lang}')
-        with open(parsed_args.lang, 'rb') as mo_file:
+        if parsed_args.lang.endswith('.mo'):
+            print(f'Using .mo file at {parsed_args.lang}')
+            message_object_file = parsed_args.lang
+        elif parsed_args.lang.endswith('.po'):
+            locale_dir = '.temp-locale'
+
+            locale = os.path.splitext(os.path.basename(parsed_args.lang))[0]
+
+            target_path = os.path.join(locale_dir, locale, 'LC_MESSAGES')
+            if not os.path.exists(target_path):
+                os.makedirs(target_path)
+
+            frontend.CommandLineInterface().run(
+                ["pybabel", "compile",
+                    f"--directory={locale_dir}",
+                    f"--input-file={parsed_args.lang}",
+                    f"--locale={locale}",
+                ])
+            message_object_file = os.path.join(target_path, f"{locale}.mo")
+        else:
+            raise Exception(f"Unrecognized behavior for {parsed_args.lang}")
+
+        with open(message_object_file, 'rb') as mo_file:
             gettext.GNUTranslations(mo_file).install()
     else:
         print(f"Loading translation for {parsed_args.lang} from {localedir}")
